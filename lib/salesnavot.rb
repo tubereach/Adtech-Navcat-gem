@@ -3,6 +3,7 @@ require "salesnavot/version"
 
 require "capybara/dsl"
 require "salesnavot/search"
+require "salesnavot/campaign"
 require "salesnavot/lead"
 require "salesnavot/invite"
 require "salesnavot/sent_invites"
