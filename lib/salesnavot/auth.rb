@@ -4,9 +4,10 @@ module Salesnavot
       @session = session
     end
     def login!(username, password)
-      url = "https://accounts.google.com/AccountChooser"
+      url = "https://accounts.google.com/signin/v2/identifier?service=adwords&continue=https%3A%2F%2Fadwords.google.com%2Fum%2Fidentity%3Fhl%3Dfr%26sourceid%3Dawo%26subid%3Dfr-ww-di-g-aw-a-awhp_1!o2&hl=fr&ltmpl=signin&passive=0&skipvpage=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
       puts "--> Visiting login screen at #{url}"
       @session.visit(url)
+
 
       # First we give username then click next
       puts "--> Adding email & password"
@@ -21,51 +22,27 @@ module Salesnavot
       puts "--> Click password"
       @session.find('#passwordNext').click
 
-      sleep(1)
-      current_url = @session.driver.current_url()
-
-      # Sometimes login is more complex
-      if current_url.include?("myaccount.google.com")
-        puts "--> On my account page, connecting to adwords..."
-        continue_to_adwords = true
+      while (@session.all('.aw-modal-popup-content  a').count == 0)
+        sleep(0.1)
       end
+      @session.find_link(title: "TUBEREACH - Test (Okay)").click
 
-      # Goto adwords
-      if continue_to_adwords
-        @session.visit("https://adwords.google.com/um/signin?hl=fr&sourceid=awo&subid=fr-ww-di-g-aw-a-awhp_1!o2")
-        sleep(1)
-        current_url = @session.driver.current_url();
-        if current_url.include?("GlifWebSignIn")
-          puts "--> Rewrite your password verification"
-          @session.fill_in "password", with: password
-          puts "--> Click password"
-          @session.find('#passwordNext').click
-          sleep(1)
-        end
-
-        sleep(1)
-        current_url = @session.driver.current_url();
-        if current_url.include?("Welcome")
-          # select a where title = "TUBEREACH - Test (Okay)"
-          puts "--> Selecting adword account"
-          sleep(1)
-          link_list = @session.find_link(title: "TUBEREACH - Test (Okay)").click
-          puts "--> We should be on Adwords main panel now."
-          continue_to_campaign = true
-        end
-
-        if continue_to_campaign
-          campaign_test = Salesnavot::Campaign.new(
-            {sales_nav_url: "https://adwords.google.com/aw/campaigns?ocid=194044506&tableState=%7B%221%22%3A%5B%7B%221%22%3Afalse%2C%222%22%3A%22stats.cost%22%7D%5D%7D&__c=9690115594&authuser=0&__u=7396299126"},
-            @session)
-          campaign_test.scrap
-        else
-          puts "--> We are not on adword panel"
-        end
-
-      else
-        puts "--> A step must be missing"
+      while (@session.all('awsm-skinny-nav').count == 0)
+        puts "Waiting for adwords context to load"
+        sleep(0.2)
       end
+      sleep(2)
+      #logged in!
+
+
+
+      campaign_test = Salesnavot::Campaign.new({sales_nav_url: "lol"} ,@session)
+      campaign_test.scrap
+
+
+
+
+
 
     end
   end

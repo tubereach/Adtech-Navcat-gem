@@ -16,11 +16,11 @@ module Salesnavot
     end
 
     def scrap
-      @session.visit @sales_nav_url
-      sleep(4)
+      @session.all('awsm-skinny-nav a').at(2).click
       puts "waiting"
+      byebug
       # Going to campaign panel
-      @session.find('#Campaigns-tab').click
+
 
     end
   end
