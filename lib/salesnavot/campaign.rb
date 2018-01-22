@@ -1,9 +1,10 @@
 module Salesnavot
   class Campaign
-    attr_reader :name
+    attr_reader :name, :budget
     def initialize(config, session)
-      @sales_nav_url = config[:sales_nav_url] || ""
       @name = config[:name] || ""
+      @budget = config[:budget] || ""
+
       @session = session
     end
 
@@ -15,9 +16,42 @@ module Salesnavot
       to_hash.to_json
     end
 
+    def create_button_not_loaded
+      @session.all('material-fab[navi-id="toolbelt-fab-add-button"]').count == 0
+    end
+
+    def click_create_button
+      @session.find('material-fab[navi-id="toolbelt-fab-add-button"]').click
+      sleep(2)
+      @session.all(".material-popup-content .menu-content material-select-item").at(0).click
+      sleep(2)
+      @session.all(".construction-item-selection-card").at(3).click
+      sleep(2)
+      @session.find('.no-goal-option span').click
+      while (@session.all('campaign-construction-panel campaign-name').count == 0)
+        puts "Crete campaign page loading"
+        sleep(0.2)
+
+      end
+    end
+
     def scrap
       @session.all('awsm-skinny-nav a').at(2).click
       puts "waiting"
+      while create_button_not_loaded
+        sleep(0.1)
+      end
+      click_create_button
+      @session.all('.remove-button').first.click
+      sleep(1)
+      @session.all('material-dialog material-button').at(1).click
+      sleep(1)
+      byebug
+      @session.find('campaign-construction-panel campaign-name').fill_in(with: @name)
+      @session.find("budget-input money-input").fill_in(with: @budget)
+      sleep(1)
+
+      @session.find('save-cancel-buttons .btn-yes').click
       byebug
       # Going to campaign panel
 

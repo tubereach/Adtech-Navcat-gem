@@ -14,6 +14,11 @@ module Salesnavot
       Salesnavot::Invite.new(sales_nav_profile_link, @capybara, content)
     end
 
+    def create_campaign(config)
+      campaign_test = Salesnavot::Campaign.new(config ,@capybara)
+      campaign_test.scrap
+    end
+
     def sent_invites
       Salesnavot::SentInvites.new(@capybara)
     end

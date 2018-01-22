@@ -11,8 +11,10 @@ RSpec.describe Salesnavot do
 
   it "asd"do
     session = Salesnavot::Session.new(ENV.fetch('username'), ENV.fetch('password'))
+    session.create_campaign(name: "test_2_name", budget: 1.43)
+
     session.driver.save_screenshot('logging.png')
-    
+
     session.driver.save_screenshot('search')
 
     session.driver.quit

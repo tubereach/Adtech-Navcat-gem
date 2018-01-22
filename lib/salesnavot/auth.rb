@@ -31,13 +31,11 @@ module Salesnavot
         puts "Waiting for adwords context to load"
         sleep(0.2)
       end
-      sleep(2)
+      sleep(4)
       #logged in!
 
 
 
-      campaign_test = Salesnavot::Campaign.new({sales_nav_url: "lol"} ,@session)
-      campaign_test.scrap
 
 
 
