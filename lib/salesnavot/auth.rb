@@ -56,7 +56,7 @@ module Salesnavot
 
         if continue_to_campaign
           campaign_test = Salesnavot::Campaign.new(
-            {sales_nav_url: "https://adwords.google.com/um/identity?authuser=0&dst=/um/homepage?__e%3D6671079794"},
+            {sales_nav_url: "https://adwords.google.com/aw/campaigns?ocid=194044506&tableState=%7B%221%22%3A%5B%7B%221%22%3Afalse%2C%222%22%3A%22stats.cost%22%7D%5D%7D&__c=9690115594&authuser=0&__u=7396299126"},
             @session)
           campaign_test.scrap
         else
