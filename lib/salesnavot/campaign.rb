@@ -46,13 +46,11 @@ module Salesnavot
       sleep(1)
       @session.all('material-dialog material-button').at(1).click
       sleep(1)
-      byebug
       @session.find('campaign-construction-panel campaign-name').fill_in(with: @name)
       @session.find("budget-input money-input").fill_in(with: @budget)
       sleep(1)
 
       @session.find('save-cancel-buttons .btn-yes').click
-      byebug
       # Going to campaign panel
 
 
