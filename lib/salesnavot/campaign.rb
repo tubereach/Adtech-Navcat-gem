@@ -36,8 +36,9 @@ module Salesnavot
     end
 
     def scrap
+      puts "--> Strated campaign creation"
       @session.all('awsm-skinny-nav a').at(2).click
-      puts "waiting"
+      puts "waiting for a button"
       while create_button_not_loaded
         sleep(0.1)
       end
@@ -51,6 +52,7 @@ module Salesnavot
       sleep(1)
 
       @session.find('save-cancel-buttons .btn-yes').click
+      @session.driver.browser.quit
       # Going to campaign panel
 
 

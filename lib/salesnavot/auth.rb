@@ -15,30 +15,37 @@ module Salesnavot
       # Global Google SignIn
       puts "--> Adding email"
       # Broken after google update ?
-      # @session.fill_in "identifierId", with: username
-      @session.fill_in "Email", with: username
+      @session.fill_in "identifierId", with: username
+      # @session.fill_in "Email", with: username
       puts "--> Click next"
       # Broken after google update ?
-      # @session.find('#identifierNext').click
-      @session.find('#next').click
+      @session.find('#identifierNext').click
+      # @session.find('#next').click
       puts "--> Adding passwd"
       puts "*** Sleeping 0.2s"
       sleep(0.2)
       # Broken after google update ?
-      # @session.fill_in "password", with: password
-      @session.fill_in "Passwd", with: password
+      @session.fill_in "password", with: password
+      # @session.fill_in "Passwd", with: password
+      # # Check if there is a captcha
+      # if (@session.all('#captchaimg').count == 0)
+      #   raise "/!\\ Epic fail: captcha detected"
+      # end
       puts "--> Click next"
-      @session.find('#signIn').click
+      # Broken after google update ?
+      @session.find('#passwordNext').click
+      # @session.find('#signIn').click
 
-      puts "*** Sleeping 1s"
-      sleep(1)
+      puts "*** Sleeping 5s"
+      sleep(5)
 
       # Verification
       # @session.driver.save_screenshot('before_verifs.png')
-      if (@session.all('h1') != 0)
+      unless @session.all('h1').empty?
         puts "/!\\ H1 detected, looking for Verifications..."
         @session.driver.save_screenshot('conf_step_1.png')
         puts "@@@ conf_step_1.png saved"
+        p @session.all('h1')
 
         if(@session.all('h1').first.text == "Confirmez qu'il s'agit bien de vous")
           puts "--> \"Confirm it's you\" step"
@@ -50,12 +57,14 @@ module Salesnavot
             puts "--> Adding city name"
             @session.fill_in "answer", with: "Nantes"
             puts "*** Sleeping 1s"
-            sleep(1)
+            sleep(5)
             puts "--> Click next"
-            @session.find("#submit").first(:xpath,".//..").click
+            # Probably protected by preventing click in center of element
+            # @session.find("#submit").click
+            @session.driver.execute_script("$('#submit').click")
             @session.driver.save_screenshot('after_loc_verif2.png')
             puts "@@@ after_loc_verif2.png saved"
-            # p @session.html
+            p @session.html
           end
           # If it's the first verif form we had
           if(@session.all("#recoveryBumpPickerEntry") == 1)
@@ -86,7 +95,9 @@ module Salesnavot
               sleep(1.5)
             end
           end # End of old? verification process
-        end
+        else
+          puts "??? There's a H1 but not in verifs"
+        end # End of "Confirmez...."
       end # End of Verifications If
 
       # Waiting account selector to load
@@ -102,6 +113,8 @@ module Salesnavot
       end
       sleep(4)
       #logged in adwords!
+    # rescue
+    #   puts "/!\\ Epic fail: Captcha detected"
     end
   end
 end
