@@ -3,6 +3,9 @@ module Salesnavot
     def initialize(session)
       @session = session
     end
+    def logout(session)
+      @session.driver.browser.quit
+    end
     def login!(username, password)
       url = "https://accounts.google.com/signin/v2/identifier?service=adwords&continue=https%3A%2F%2Fadwords.google.com%2Fum%2Fidentity%3Fhl%3Dfr%26sourceid%3Dawo%26subid%3Dfr-ww-di-g-aw-a-awhp_1!o2&hl=fr&ltmpl=signin&passive=0&skipvpage=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
       puts "--> Visiting login screen at #{url}"
@@ -102,16 +105,20 @@ module Salesnavot
 
       # Waiting account selector to load
       while (@session.all('.aw-modal-popup-content  a').count == 0)
-        puts "--- Waiting for account selector, retry in 0.5s"
-        sleep(0.5)
+        puts "--- Waiting for account selector, retry in 1s"
+        sleep(1)
       end
+      puts "--> Click on selected account"
       @session.find_link(title: "TUBEREACH - Test (Okay)").click
 
       while (@session.all('awsm-skinny-nav').count == 0)
-        puts "Waiting for adwords context to load"
-        sleep(0.2)
+        puts "--- Waiting for adwords context to load, sleep 1s"
+        sleep(1)
       end
+
+      puts "*** Sleeping 1s"
       sleep(4)
+      puts "### Logged in."
       #logged in adwords!
     # rescue
     #   puts "/!\\ Epic fail: Captcha detected"

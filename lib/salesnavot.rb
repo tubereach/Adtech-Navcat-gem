@@ -1,8 +1,8 @@
 require "salesnavot/version"
 
-
 require "capybara/dsl"
 require "salesnavot/search"
+require "salesnavot/adgroup"
 require "salesnavot/campaign"
 require "salesnavot/lead"
 require "salesnavot/invite"
@@ -16,7 +16,5 @@ require "salesnavot/driver"
 module Salesnavot
   def self.setup
     Capybara.run_server = false
-
-
   end
 end

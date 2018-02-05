@@ -52,10 +52,6 @@ module Salesnavot
       sleep(1)
 
       @session.find('save-cancel-buttons .btn-yes').click
-      @session.driver.browser.quit
-      # Going to campaign panel
-
-
     end
   end
 end

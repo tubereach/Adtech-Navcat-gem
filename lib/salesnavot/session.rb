@@ -19,6 +19,17 @@ module Salesnavot
       campaign_test.scrap
     end
 
+    def create_adgroup(config, mode)
+      campaign_test = Salesnavot::Adgroup.new(config ,@capybara)
+      case mode
+      when "apart"
+        campaign_test.goto_campaigns_adgroups
+        campaign_test.scrap
+      when "joint"
+        campaign_test.scrap
+      end
+    end
+
     def sent_invites
       Salesnavot::SentInvites.new(@capybara)
     end
