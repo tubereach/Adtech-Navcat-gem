@@ -4,6 +4,7 @@ module Salesnavot
     def initialize(config, session)
       @name = config[:name] || ""
       @bid = config[:bid] || ""
+      @video_campaign = config[:campaign] || ""
 
       @session = session
     end
@@ -31,7 +32,7 @@ module Salesnavot
       click_first_when_available('.component-wrap highlighted-text')
 
       puts "--> Searching our campaign name"
-      fill_when_available('.input-container input', "clean_test")
+      fill_when_available('.input-container input', @video_campaign.name)
       puts "--> Clicking on our campaign name"
       click_last_when_available('.suggestion')
 
