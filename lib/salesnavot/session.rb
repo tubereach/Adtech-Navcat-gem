@@ -30,6 +30,18 @@ module Salesnavot
       end
     end
 
+    def create_announce(config, mode)
+      campaign_test = Salesnavot::Announce.new(config ,@capybara)
+      case mode
+      when "apart"
+        campaign_test.goto_campaign_adgroups
+        campaign_test.goto_adgroup
+        campaign_test.scrap
+      when "joint"
+        campaign_test.scrap
+      end
+    end
+
     def sent_invites
       Salesnavot::SentInvites.new(@capybara)
     end
