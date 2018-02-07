@@ -50,7 +50,7 @@ module Salesnavot
       puts "### Now on Adgroup page"
     end
 
-    def scrap
+    def create
       puts "\n### Started Announce creation"
       # We should start from an adgroup page
       # If it isn't the case we user goto_campaigns_adgroups before scraping

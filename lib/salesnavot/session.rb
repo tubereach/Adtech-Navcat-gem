@@ -31,14 +31,14 @@ module Salesnavot
     end
 
     def create_announce(config, mode)
-      campaign_test = Salesnavot::Announce.new(config ,@capybara)
+      announce_on_browser = Salesnavot::Announce.new(config ,@capybara)
       case mode
       when "apart"
-        campaign_test.goto_campaign_adgroups
-        campaign_test.goto_adgroup
-        campaign_test.scrap
+        announce_on_browser.goto_campaign_adgroups
+        announce_on_browser.goto_adgroup
+        announce_on_browser.create
       when "joint"
-        campaign_test.scrap
+        announce_on_browser.create
       end
     end
 
