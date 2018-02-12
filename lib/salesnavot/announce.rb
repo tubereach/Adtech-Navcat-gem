@@ -61,7 +61,7 @@ module Salesnavot
 
       puts "--> Filling video url"
       # fill_when_available('video-picker input', "https://www.youtube.com/watch?v=ETSlktbrgv8")
-      fill_when_available('video-picker input', @announce.video_url)
+      fill_when_available('video-picker input', @announce.video.video_url)
 
       puts "--> Filling final url"
       # fill_when_available('url-input[sectiontiming="FinalUrl"] input', "www.test.ing.lol.fr")
