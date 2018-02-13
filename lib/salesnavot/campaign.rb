@@ -1,5 +1,5 @@
 module Salesnavot
-  class Campaign
+  class Campaign < ScrapMethods
     attr_reader :name, :budget
     def initialize(config, session)
       @name = config[:name] || ""
@@ -9,49 +9,66 @@ module Salesnavot
     end
 
     def to_hash
-      {name: @name, sales_nav_url: @sales_nav_url}
+      {name: @name, budget: @budget}
     end
 
     def to_json
       to_hash.to_json
     end
 
-    def create_button_not_loaded
-      @session.all('material-fab[navi-id="toolbelt-fab-add-button"]').count == 0
-    end
+    def goto_campaigns
+      puts "\n### Going to campaigns list page"
 
-    def click_create_button
-      @session.find('material-fab[navi-id="toolbelt-fab-add-button"]').click
-      sleep(2)
-      @session.all(".material-popup-content .menu-content material-select-item").at(0).click
-      sleep(2)
-      @session.all(".construction-item-selection-card").at(3).click
-      sleep(2)
-      @session.find('.no-goal-option span').click
-      while (@session.all('campaign-construction-panel campaign-name').count == 0)
-        puts "Crete campaign page loading"
-        sleep(0.2)
+      puts "--> Click on Goto Button"
+      click_when_available('.goto-button')
 
-      end
+      puts "--> Filling search"
+      fill_when_available('.search-input', "Campagnes")
+
+      puts "--> Click on Campaigns on results"
+      click_first_when_available('.component-wrap highlighted-text')
+
+      puts "### Now on Campaigns page"
     end
 
     def scrap
-      puts "--> Strated campaign creation"
-      @session.all('awsm-skinny-nav a').at(2).click
-      puts "waiting for a button"
-      while create_button_not_loaded
-        sleep(0.1)
-      end
-      click_create_button
-      @session.all('.remove-button').first.click
-      sleep(1)
-      @session.all('material-dialog material-button').at(1).click
-      sleep(1)
-      @session.find('campaign-construction-panel campaign-name').fill_in(with: @name)
-      @session.find("budget-input money-input").fill_in(with: @budget)
-      sleep(1)
+      puts "\n### Started Campaign creation"
+      # We should start from campaigns page
+      # If it isn't the case we use goto_campaigns
+      puts "*** We're on Campaigns page"
 
-      @session.find('save-cancel-buttons .btn-yes').click
+      puts "--> Click on + button"
+      click_when_available('material-fab[navi-id="toolbelt-fab-add-button"]')
+
+      puts "--> Click on new campaign"
+      click_first_when_available(".material-popup-content .menu-content material-select-item")
+
+      puts "--> Click on Video card"
+      click_nth_when_available(".construction-item-selection-card", 3)
+
+      puts "--> Click on goalless Campaign"
+      click_when_available('.no-goal-option span')
+
+      puts "--> Click on ignore adgroups"
+      click_first_when_available('.remove-button')
+
+      puts "--> Click on ignore"
+      click_when_available('.simple-dialog-button:last-child')
+
+      puts "--> Filling name"
+      fill_when_available('campaign-construction-panel campaign-name input', @name)
+
+      puts "--> Filling budget"
+      fill_when_available('budget-input money-input input', @budget)
+
+      puts "--> Click on save and continue"
+      click_when_available('save-cancel-buttons .btn-yes')
+
+      puts "*** We're on created Campaign's adgroup list page"
+      puts "### Campaign created."
+
+      puts "/!\\ Sleeping 10s for debug purposes"
+      sleep(10)
     end
   end
 end

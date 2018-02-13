@@ -16,6 +16,7 @@ module Salesnavot
 
     def create_campaign(config)
       campaign_test = Salesnavot::Campaign.new(config ,@capybara)
+      campaign_test.goto_campaigns
       campaign_test.scrap
     end
 

@@ -1,6 +1,7 @@
 require "salesnavot/version"
 
 require "capybara/dsl"
+require "salesnavot/scrap_methods"
 require "salesnavot/search"
 require "salesnavot/adgroup"
 require "salesnavot/announce"

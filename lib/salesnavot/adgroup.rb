@@ -1,5 +1,5 @@
 module Salesnavot
-  class Adgroup
+  class Adgroup < ScrapMethods
     attr_reader :name, :bid
     def initialize(config, session)
       @name = config[:name] || ""
@@ -19,8 +19,6 @@ module Salesnavot
 
     def goto_campaigns_adgroups
       puts "\n### Going to selected campaign's adgroup form"
-      url_adgroup = "https://adwords.google.com/aw/overview?ocid=194044506&__c=9690115594&authuser=0&__u=7396299126"
-      # @session.visit(url_adgroup)
 
       puts "--> Click on Goto Button"
       click_when_available('.goto-button')
@@ -74,55 +72,11 @@ module Salesnavot
       puts "*** We're back again on adgroup page"
       puts "### Adgroup created."
 
-      puts "/!\\ Sleeping 30s for debug purposes"
-      sleep(30)
+      puts "/!\\ Sleeping 10s for debug purposes"
+      sleep(10)
     end
 
     private
-
-    def click_when_available(item_selector)
-      while(@session.all(item_selector).count == 0)
-        puts "--- Waiting for element, sleep 1s"
-        sleep(1)
-      end
-      if @session.all(item_selector).count == 1
-        puts "--- Clicking on element"
-        @session.find(item_selector).click
-      else
-        puts "/!\\ Ambiguous selector, more than one result"
-      end
-    end
-
-    def click_first_when_available(item_selector)
-      while(@session.all(item_selector).count == 0)
-        puts "--- Waiting for element, sleep 1s"
-        sleep(1)
-      end
-      puts "--- Clicking on element"
-      @session.all(item_selector).first.click
-    end
-
-    def click_last_when_available(item_selector)
-      while(@session.all(item_selector).count == 0)
-        puts "--- Waiting for element, sleep 1s"
-        sleep(1)
-      end
-      puts "--- Clicking on element"
-      @session.all(item_selector).last.click
-    end
-
-    def fill_when_available(item_selector, item_value)
-      while(@session.all(item_selector).count == 0)
-        puts "--- Waiting for element, sleep 1s"
-        sleep(1)
-      end
-      if @session.all(item_selector).count == 1
-        puts "--- Filling element"
-        @session.find(item_selector).set item_value
-      else
-        puts "/!\\ Ambiguous selector, more than one result"
-      end
-    end
 
     def selecting_format(format)
       while(@session.all('material-radio').count == 0)
