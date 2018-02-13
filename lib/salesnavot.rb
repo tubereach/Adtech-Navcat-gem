@@ -9,6 +9,7 @@ require "salesnavot/auth"
 require "salesnavot/campaign"
 require "salesnavot/adgroup"
 require "salesnavot/announce"
+require "salesnavot/call_to_action"
 
 require "salesnavot/friends"
 require "salesnavot/lead"

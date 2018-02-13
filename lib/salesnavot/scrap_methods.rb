@@ -7,6 +7,7 @@ module Salesnavot
     # -> Fill when Available
 
     def click_when_available(item_selector)
+      count = 0
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
@@ -23,6 +24,7 @@ module Salesnavot
     end
 
     def click_first_when_available(item_selector)
+      count = 0
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
@@ -35,6 +37,7 @@ module Salesnavot
     end
 
     def click_last_when_available(item_selector)
+      count = 0
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
@@ -47,6 +50,7 @@ module Salesnavot
     end
 
     def fill_when_available(item_selector, item_value)
+      count = 0
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
@@ -65,6 +69,7 @@ module Salesnavot
     end
 
     def click_nth_when_available(item_selector, n)
+      count = 0
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)

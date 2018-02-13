@@ -39,6 +39,17 @@ module Salesnavot
       end
     end
 
+    def create_call_to_action(config, mode)
+      cta_on_browser = Salesnavot::CallToAction.new(config ,@capybara)
+      case mode
+      when "apart"
+        cta_on_browser.goto_videos
+        cta_on_browser.create
+      when "joint"
+        cta_on_browser.create
+      end
+    end
+
     def driver
       @capybara.driver
     end
