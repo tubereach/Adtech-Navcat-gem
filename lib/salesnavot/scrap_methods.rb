@@ -10,6 +10,9 @@ module Salesnavot
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
+        count = count + 1
+        puts "/!\\ Waited 90s, something might be wrong, breaking" if count == 90
+        break if count == 90
       end
       if @session.all(item_selector).count == 1
         puts "--- Clicking on element"
@@ -23,6 +26,9 @@ module Salesnavot
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
+        count = count + 1
+        puts "/!\\ Waited 90s, something might be wrong, breaking" if count == 90
+        break if count == 90
       end
       puts "--- Clicking on element"
       @session.all(item_selector).first.click
@@ -32,6 +38,9 @@ module Salesnavot
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
+        count = count + 1
+        puts "/!\\ Waited 90s, something might be wrong, breaking" if count == 90
+        break if count == 90
       end
       puts "--- Clicking on element"
       @session.all(item_selector).last.click
@@ -41,6 +50,9 @@ module Salesnavot
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
+        count = count + 1
+        puts "/!\\ Waited 90s, something might be wrong, breaking" if count == 90
+        break if count == 90
       end
       if @session.all(item_selector).count == 1
         # puts "--- Sleeping an extra 1s"
@@ -56,6 +68,9 @@ module Salesnavot
       while(@session.all(item_selector).count == 0)
         puts "--- Waiting for element, sleep 1s"
         sleep(1)
+        count = count + 1
+        puts "/!\\ Waited 90s, something might be wrong, breaking" if count == 90
+        break if count == 90
       end
       puts "--- Clicking on element"
       @session.all(item_selector)[n].click

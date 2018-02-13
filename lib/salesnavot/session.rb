@@ -10,10 +10,6 @@ module Salesnavot
       Salesnavot::Lead.new(config, @capybara)
     end
 
-    def invite(sales_nav_profile_link, content)
-      Salesnavot::Invite.new(sales_nav_profile_link, @capybara, content)
-    end
-
     def create_campaign(config)
       campaign_test = Salesnavot::Campaign.new(config ,@capybara)
       campaign_test.goto_campaigns
@@ -43,24 +39,9 @@ module Salesnavot
       end
     end
 
-    def sent_invites
-      Salesnavot::SentInvites.new(@capybara)
-    end
-
-    def profile_views
-      Salesnavot::ProfileViews.new(@capybara)
-    end
-
     def driver
       @capybara.driver
     end
 
-    def friends
-      Salesnavot::Friends.new(@capybara)
-    end
-
-    def search(identifier)
-      Salesnavot::Search.new(identifier, @capybara)
-    end
   end
 end
