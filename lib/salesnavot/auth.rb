@@ -1,14 +1,19 @@
 module Salesnavot
-  class Auth
+  class Auth < ScrapMethods
     def initialize(session)
       @session = session
     end
+
     def logout(session)
       @session.driver.browser.quit
     end
+
     def login!(username, password)
       url = "https://accounts.google.com/signin/v2/identifier?service=adwords&continue=https%3A%2F%2Fadwords.google.com%2Fum%2Fidentity%3Fhl%3Dfr%26sourceid%3Dawo%26subid%3Dfr-ww-di-g-aw-a-awhp_1!o2&hl=fr&ltmpl=signin&passive=0&skipvpage=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
-      puts "--> Visiting login screen at #{url}"
+
+      puts "\n### Login procedure"
+
+      puts "--> Visiting login screen"
       @session.visit(url)
 
       # Debug tools
@@ -18,31 +23,33 @@ module Salesnavot
       # Global Google SignIn
       puts "--> Adding email"
       # Broken after google update ?
-      @session.fill_in "identifierId", with: username
-      # @session.fill_in "Email", with: username
+      fill_when_available("#identifierId", username)
+      # fill_when_available("#Email", username)
+
       puts "--> Click next"
       # Broken after google update ?
-      @session.find('#identifierNext').click
-      # @session.find('#next').click
+      click_when_available('#identifierNext')
+      # click_when_available('#next')
+
       puts "--> Adding passwd"
-      puts "*** Sleeping 0.2s"
-      sleep(0.2)
       # Broken after google update ?
-      @session.fill_in "password", with: password
-      # @session.fill_in "Passwd", with: password
+      fill_when_available("#password input", password)
+      # fill_when_available("#Passwd", password)
+
       # # Check if there is a captcha
       # if (@session.all('#captchaimg').count == 0)
       #   raise "/!\\ Epic fail: captcha detected"
       # end
+
       puts "--> Click next"
       # Broken after google update ?
-      @session.find('#passwordNext').click
-      # @session.find('#signIn').click
-
-      puts "*** Sleeping 5s"
-      sleep(5)
+      click_when_available('#passwordNext')
+      # click_when_available('#signIn')
 
       # Verification
+      puts "--> Looking for Verifications"
+      puts "*** Sleeping 5s"
+      sleep(5)
       # @session.driver.save_screenshot('before_verifs.png')
       unless @session.all('h1').empty?
         puts "/!\\ H1 detected, looking for Verifications..."
@@ -105,7 +112,7 @@ module Salesnavot
 
       # Waiting account selector to load
       while (@session.all('.aw-modal-popup-content  a').count == 0)
-        puts "--- Waiting for account selector, retry in 1s"
+        puts "--> Waiting for account selector, retry in 1s"
         sleep(1)
       end
       puts "--> Click on selected account"
@@ -116,10 +123,7 @@ module Salesnavot
         sleep(1)
       end
 
-      puts "*** Sleeping 1s"
-      sleep(4)
       puts "### Logged in."
-      #logged in adwords!
     # rescue
     #   puts "/!\\ Epic fail: Captcha detected"
     end
