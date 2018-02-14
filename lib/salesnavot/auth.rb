@@ -23,18 +23,18 @@ module Salesnavot
       # Global Google SignIn
       puts "--> Adding email"
       # Broken after google update ?
-      fill_when_available("#identifierId", username)
-      # fill_when_available("#Email", username)
+      #fill_when_available("#identifierId", username)
+       fill_when_available("#Email", username)
 
       puts "--> Click next"
       # Broken after google update ?
-      click_when_available('#identifierNext')
-      # click_when_available('#next')
+      #click_when_available('#identifierNext')
+       click_when_available('#next')
 
       puts "--> Adding passwd"
       # Broken after google update ?
-      fill_when_available("#password input", password)
-      # fill_when_available("#Passwd", password)
+      #fill_when_available("#password input", password)
+      fill_when_available("#Passwd", password)
 
       # # Check if there is a captcha
       # if (@session.all('#captchaimg').count == 0)
@@ -43,8 +43,8 @@ module Salesnavot
 
       puts "--> Click next"
       # Broken after google update ?
-      click_when_available('#passwordNext')
-      # click_when_available('#signIn')
+      #click_when_available('#passwordNext')
+      click_when_available('#signIn')
 
       # Verification
       puts "--> Looking for Verifications"
@@ -59,6 +59,12 @@ module Salesnavot
 
         if(@session.all('h1').first.text == "Confirmez qu'il s'agit bien de vous")
           puts "--> \"Confirm it's you\" step"
+        
+
+          #  @session.select("France", :from => "countryList")
+          #  @session.fill_in("phoneNumber", with: "0782488280")
+          #  @session.click_on("Envoyer le SMS")
+          # @session.fill_in("pin", with: "526846")
 
           if(@session.all('span')[1].text == "Indiquer la ville dans laquelle vous vous connectez en général")
             puts "--> Click on specify main location"
